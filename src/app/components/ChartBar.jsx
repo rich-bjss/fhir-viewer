@@ -2,7 +2,7 @@
 import React, { useEffect, useRef } from "react";
 import Chart from "chart.js/auto";
 
-export default function App() {
+export default function App(props) {
   const canvasEl = useRef(null);
 
   const colors = {
@@ -70,8 +70,8 @@ export default function App() {
 
   return (
     <div className="App">
-      <span>Chart.js Demo</span>
-      <canvas id="myChart" ref={canvasEl} height="100" />
+      <span>{props.title}</span>
+      <canvas id={props.title} ref={canvasEl} height={props.height} />
     </div>
   );
 }

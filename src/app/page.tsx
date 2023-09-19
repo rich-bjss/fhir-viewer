@@ -2,16 +2,137 @@ import Image from 'next/image'
 import ChartBar from './components/ChartBar.jsx'
 
 export default function Home() {
+
+  const data = {
+    "nhsNumber": "9876543210",
+    "name": "MISS RACHEL KANFELD",
+    "dob": "1998-03-16",
+    "observations": {
+      "Respiration rate": [
+        {
+          "timestamp": "2023-02-01T12:45:00Z",
+          "value": 56,
+          "code": "{Breaths}/min"
+        }
+      ],
+      "Oxygen saturation": [
+        {
+          "timestamp": "2023-02-01T12:45:00Z",
+          "value": 90,
+          "code": "%"
+        }
+      ],
+      "Systolic blood pressure": [],
+      "Pulse rate": [
+        {
+          "timestamp": "2022-02-15T14:17:59+01:00",
+          "value": 48,
+          "code": "{beats}/min"
+        },
+        {
+          "timestamp": "2023-02-01T12:45:00Z",
+          "value": 87,
+          "code": "{beats}/min"
+        },
+        {
+          "timestamp": "2022-02-15T14:17:59+01:00",
+          "value": 48,
+          "code": "{beats}/min"
+        },
+        {
+          "timestamp": "2022-02-16T14:17:59+01:00",
+          "value": 49,
+          "code": "{beats}/min"
+        }
+      ],
+      "Temperature": [
+        {
+          "timestamp": "2023-02-01T12:45:00Z",
+          "value": 37.1,
+          "code": "Cel"
+        }
+      ]
+    },
+    "newsScores": {
+      "2022-02-15T14:17:59+01:00": 1,
+      "2022-02-16T14:17:59+01:00": 1,
+      "2023-02-01T12:45:00Z": 6
+    }
+  }
+
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <ChartBar />
+    <main className="flex min-h-screen flex-col items-center justify-between p-12">
+
+    <table className="w-full">
+      <tbody> 
+        <tr>
+          <td className="w-1/3 p-5">
+            <div id="patientDetails" className="w-full pt-0 mb-5 h-full bg-gray-100 rounded text-black shadow-xl" > 
+              <div className="w-full">
+                <h2 className="p-5 rounded bg-blue-300 font-bold"> Patient Details</h2>
+              </div>
+              
+              <div className="p-5">
+                <h1 className="text-xl font-bold">{data.name}</h1>
+              
+                <div className="w-full">
+                  <p className="">NHS NUMBER: {data.nhsNumber}</p>
+                  <p className="">DOB: {data.dob}</p>
+                </div>
+              </div>
+            </div>
+            <div  className="w-full pt-0 h-full bg-gray-100 rounded font-bold text-black shadow-xl" > 
+              <div className="w-full">
+                <h2 className="p-5 rounded bg-blue-300"> Other</h2>
+              </div>
+              
+              <div className="w-full p-5 font-normal">
+                <p className=""></p>
+                <p className="">???:</p>
+                <p className="">???:</p>
+              </div>
+            </div>
+          </td>
+
+          <td className="w-1/3">
+          <div id="Dashboard" className="w-full inline-block">        
+            <div id="vitalSigns" className="w-full pt-0 bg-gray-100 rounded text-black shadow-xl font-bold">
+              <div className="w-full">
+                <h2 className="p-5 rounded bg-blue-300"> Vital Signs</h2>
+              </div>
+              <div className="p-2">
+                <div className="bg-gray-200 m-2 rounded text-black">
+                  <ChartBar height="100">
+
+                  </ChartBar>
+                  <br></br>
+                  <button className="right-0 bg-blue-500 hover:bg-blue-500 text-white py-2 px-4 rounded">
+                    {"-> Details"}
+                  </button>
+                </div>
+                
+                <div className="bg-gray-200 p-5 m-2 rounded text-black"><ChartBar title="Respiration rate " data={data.observations} height="50"/></div>
+                <div className="bg-gray-200 p-5 m-2 rounded text-black"><ChartBar title="Pulse rate" height="50"/></div>
+                <div className="bg-gray-200 p-5 m-2 rounded text-black"><ChartBar title="Oxygen saturation" height="50"/></div>
+                <div className="bg-gray-200 p-5 m-2 rounded text-black"><ChartBar title="Temper" height="50"/></div>
+              </div>
+
+            </div>  
+          </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+      
 
 
-      <div className="w-full bg-blue-600 p-5 rounded text-white">Hello</div>
 
 
 
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
+
+      {/* <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
         <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
           Get started by editing&nbsp;
           <code className="font-mono font-bold">src/app/page.tsx</code>
@@ -115,7 +236,7 @@ export default function Home() {
             Instantly deploy your Next.js site to a shareable URL with Vercel.
           </p>
         </a>
-      </div>
+      </div> */}
     </main>
   )
 }

@@ -1,5 +1,6 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fhirclient import client
+from fhirclient.server import FHIRNotFoundException
 import fhirclient.models.patient as p
 import fhirclient.models.observation as o
 
@@ -119,7 +120,11 @@ def fetchPatientObservations(nhsNumber):
 
     patientSearch = p.Patient.where({'identifier': f'https://fhir.nhs.uk/Id/nhs-number|{nhsNumber}'})
 
-    patientsFound = patientSearch.perform_resources(smart.server)
+    try:
+        patientsFound = patientSearch.perform_resources(smart.server)
+    except Exception:
+        raise HTTPException(status_code=404, detail="Patient not found")
+    
     patient = patientsFound[0]
     patientId = patient.id
 

@@ -35,7 +35,9 @@ export default function App(props) {
         labels.push(props.data[i].timestamp);
         weight.push(props.data[i].value);
       }
-      code = props.data[0].code;
+      if (props.data.length > 0) {
+        code = props.data[0].code;
+      }
     }
 
 

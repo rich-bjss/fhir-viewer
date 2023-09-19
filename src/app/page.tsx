@@ -1,7 +1,14 @@
+"use client"
+import { useState, useEffect } from 'react';
+
 import Image from 'next/image'
 import ChartBar from './components/ChartBar.jsx'
+import Modal from './components/Modal'
 
 export default function Home() {
+
+  const [showModal, setShowModal] = useState(false);  
+  const [dataType, setDataType] = useState("");
 
   const data = {
     "nhsNumber": "9876543210",
@@ -82,14 +89,42 @@ export default function Home() {
     ]
   }
 
+  function handleOpenModal(type: string){
+    
+    setShowModal(true);
+    setDataType(type);
+    console.log(showModal);
+  }
+
+  function handleCloseModal(){
+    setShowModal(false);
+    console.log("Closing modal");
+  }
+
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-12">
 
+    <header>
+      <form>
+        <label> Enter a NHS Number: </label>
+        <input type="text"></input>
+      </form>
+    </header>
+
+
+
+
+
+
+
+
+
+
     <table className="w-full">
       <tbody> 
         <tr>
-          <td className="w-1/3 p-5">
+          <td className="w-1/3 p-5 pt-0 align-top">
             <div id="patientDetails" className="w-full pt-0 mb-5 h-full bg-gray-100 rounded text-black shadow-xl" > 
               <div className="w-full">
                 <h2 className="p-5 rounded bg-blue-300 font-bold"> Patient Details</h2>
@@ -99,8 +134,9 @@ export default function Home() {
                 <h1 className="text-xl font-bold">{data.name}</h1>
               
                 <div className="w-full">
-                  <p className="">NHS NUMBER: {data.nhsNumber}</p>
-                  <p className="">DOB: {data.dob}</p>
+                  <br />
+                  <p className="text-sm">NHS NUMBER: {data.nhsNumber}</p>
+                  <p className="text-sm">DOB: {data.dob}</p>
                 </div>
               </div>
             </div>
@@ -125,26 +161,48 @@ export default function Home() {
               </div>
               <div className="p-2">
                 <div className="bg-gray-200 p-5 m-2 rounded text-black">
-                  <ChartBar title="News Scores" data={data.newsScores} height="100">
-
-                  </ChartBar>
+                  <ChartBar title="News Scores" data={data.newsScores} height="100"></ChartBar>
                   <br></br>
-                  <button className="right-0 bg-blue-500 hover:bg-blue-500 text-white py-2 px-4 rounded">
+                  <button onClick={() => handleOpenModal("newsScores")} className="right-0 bg-blue-500 hover:bg-blue-500 text-white py-2 px-4 rounded">
                     {"-> Details"}
                   </button>
                 </div>
                 
                 <div className="bg-gray-200 p-5 m-2 rounded text-black">
-                  <ChartBar title="Respiration rate" data={data.observations['Respiration rate']} height="50"/></div>
-                
+                  <ChartBar title="Respiration rate" data={data.observations['Respiration rate']} height="50"/>
+                  <br></br>
+                  <button onClick={() => handleOpenModal("Respiration rate")} className="right-0 bg-blue-500 hover:bg-blue-500 text-white py-2 px-4 rounded">
+                    {"-> Details"}
+                  </button>
+                  </div>
                 <div className="bg-gray-200 p-5 m-2 rounded text-black">
-                  <ChartBar title="Pulse rate" data={data.observations['Pulse rate']} height="50"/></div>
-                
+                  <ChartBar title="Oxygen saturation" data={data.observations['Oxygen saturation']} height="50"/>
+                  <br></br>
+                  <button onClick={() => handleOpenModal("Oxygen saturation")} className="right-0 bg-blue-500 hover:bg-blue-500 text-white py-2 px-4 rounded">
+                    {"-> Details"}
+                  </button>
+                  </div>
                 <div className="bg-gray-200 p-5 m-2 rounded text-black">
-                  <ChartBar title="Oxygen saturation" data={data.observations['Oxygen saturation']} height="50"/></div>
-                
+                  <ChartBar title="Systolic blood pressure" data={data.observations['Systolic blood pressure']} height="50"/>
+                  <br></br>
+                  <button onClick={() => handleOpenModal("Systolic blood pressure")} className="right-0 bg-blue-500 hover:bg-blue-500 text-white py-2 px-4 rounded">
+                    {"-> Details"}
+                  </button>
+                  </div>
                 <div className="bg-gray-200 p-5 m-2 rounded text-black">
-                  <ChartBar title="Temperature" data={data.observations['Temperature']} height="50"/></div>
+                  <ChartBar title="Pulse rate" data={data.observations['Pulse rate']} height="50"/>
+                  <br></br>
+                  <button onClick={() => handleOpenModal("Pulse rate")} className="right-0 bg-blue-500 hover:bg-blue-500 text-white py-2 px-4 rounded">
+                    {"-> Details"}
+                  </button>
+                  </div>
+                <div className="bg-gray-200 p-5 m-2 rounded text-black">
+                  <ChartBar title="Temperature" data={data.observations['Temperature']} height="50"/>
+                  <br></br>
+                  <button onClick={() => handleOpenModal("Temperature")} className="right-0 bg-blue-500 hover:bg-blue-500 text-white py-2 px-4 rounded">
+                    {"-> Details"}
+                  </button>
+                  </div>
               </div>
 
             </div>  
@@ -154,11 +212,7 @@ export default function Home() {
       </tbody>
     </table>
 
-      
-
-
-
-
+    <Modal show={showModal} handleClose={handleCloseModal} dataType={dataType} data={data}/>
 
 
       {/* <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">

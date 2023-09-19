@@ -65,9 +65,10 @@ def _fetchObservations(smart, patientId):
         obs = []
         obsByTimestamp = {}
         for ob in [o for o in observations if o.valueQuantity]:
-            observationObject = {'timestamp': ob.effectiveDateTime.isostring, 'value': ob.valueQuantity.value, 'code': ob.valueQuantity.code}
+            effectiveDateTime = ob.effectiveDateTime or ob.effectivePeriod.start
+            observationObject = {'timestamp': effectiveDateTime.isostring, 'value': ob.valueQuantity.value, 'code': ob.valueQuantity.code}
             obs.append(observationObject)
-            obsByTimestamp[ob.effectiveDateTime.isostring] = observationObject
+            obsByTimestamp[effectiveDateTime.isostring] = observationObject
         observationsDict[observationName] = obs
         obsByTimestampDict[observationName] = obsByTimestamp
 

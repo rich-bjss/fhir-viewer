@@ -104,7 +104,7 @@ def _generateNewsScores(obsByTimestampDict):
             if timestamp in obsByTimestampDict[observationName]:
                 tracker[observationName] = obsByTimestampDict[observationName][timestamp]['value']
 
-        timedNewsScores.append({'timestamp': timestamp, 'value': _calculateNewsScore(tracker)})
+        timedNewsScores.append({'timestamp': timestamp, 'value': _calculateNewsScore(tracker), 'code': 'News Score'})
 
     return timedNewsScores
 

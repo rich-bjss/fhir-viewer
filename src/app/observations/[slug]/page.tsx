@@ -7,8 +7,8 @@ import { useRouter } from 'next/router'
 
 //9876543210
 async function getData(id: any) {
-  console.log(`https://fhir-observations--x2v47cb.kindground-97a21155.uksouth.azurecontainerapps.io/patientObservations/${id}`)
-  const res = await fetch(`https://fhir-observations--x2v47cb.kindground-97a21155.uksouth.azurecontainerapps.io/patientObservations/${id}`)
+  console.log(`https://fhir-observations.kindground-97a21155.uksouth.azurecontainerapps.io/patientObservations/${id}`)
+  const res = await fetch(`https://fhir-observations.kindground-97a21155.uksouth.azurecontainerapps.io/patientObservations/${id}`)
   // The return value is *not* serialized
   // You can return Date, Map, Set, etc.
  

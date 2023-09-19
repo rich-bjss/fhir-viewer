@@ -36,9 +36,13 @@ export default function App(props) {
         labels.push(Date.parse(props.data[i].timestamp));
         weight.push(props.data[i].value);
       }
+<<<<<<< HEAD
+      code = (props.data[0] || {'code':''}).code;
+=======
       if (props.data.length > 0) {
         code = props.data[0].code;
       }
+>>>>>>> f92a923276eaa2c6aeb95a4d31e241b681a34955
     }
 
 

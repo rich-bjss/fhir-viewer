@@ -1,7 +1,6 @@
 "use client"
 import React, { useEffect, useRef } from "react";
 import Chart from "chart.js/auto";
-import 'chartjs-adapter-dayjs-4/dist/chartjs-adapter-dayjs-4.esm';
 
 export default function App(props) {
   const canvasEl = useRef(null);
@@ -33,7 +32,7 @@ export default function App(props) {
     let code = "";
     if (props.data){
       for (let i = 0; i < props.data.length; i++){
-        labels.push(Date.parse(props.data[i].timestamp));
+        labels.push(props.data[i].timestamp);
         weight.push(props.data[i].value);
       }
       if (props.data.length > 0) {
@@ -74,16 +73,7 @@ export default function App(props) {
     };
     const config = {
       type: "line",
-      data: data,
-      options: {
-        scales: {
-          x: {
-            type: 'time',
-            min: props.minTimestamp,
-            max: props.maxTimestamp,
-          }
-        }
-      }
+      data: data
     };
     const myLineChart = new Chart(ctx, config);
 

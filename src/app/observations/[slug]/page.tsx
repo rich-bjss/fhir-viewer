@@ -1,108 +1,113 @@
-"use client"
-import { useState, useEffect } from 'react';
 
 import Image from 'next/image'
-import ChartBar from './components/ChartBar.jsx'
-import Modal from './components/Modal'
+import ChartBar from '../../components/ChartBar.jsx'
+import Modal from '../../components/Modal'
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/router'
 
-export default function Home() {
-
-  const [showModal, setShowModal] = useState(false);  
-  const [dataType, setDataType] = useState("");
-
-  const data = {
-    "nhsNumber": "9876543210",
-    "name": "MISS RACHEL KANFELD",
-    "dob": "1998-03-16",
-    "observations": {
-      "Respiration rate": [
-        {
-          "timestamp": "2023-02-01T12:45:00Z",
-          "value": 56,
-          "code": "{Breaths}/min"
-        },
-        {
-          "timestamp": "2023-02-02T12:45:00Z",
-          "value": 57,
-          "code": "{Breaths}/min"
-        },
-        {
-          "timestamp": "2023-02-03T12:45:00Z",
-          "value": 53,
-          "code": "{Breaths}/min"
-        }
-      ],
-      "Oxygen saturation": [
-        {
-          "timestamp": "2023-02-01T12:45:00Z",
-          "value": 90,
-          "code": "%"
-        }
-      ],
-      "Systolic blood pressure": [],
-      "Pulse rate": [
-        {
-          "timestamp": "2022-02-15T14:17:59+01:00",
-          "value": 48,
-          "code": "{beats}/min"
-        },
-        {
-          "timestamp": "2023-02-01T12:45:00Z",
-          "value": 87,
-          "code": "{beats}/min"
-        },
-        {
-          "timestamp": "2022-02-15T14:17:59+01:00",
-          "value": 48,
-          "code": "{beats}/min"
-        },
-        {
-          "timestamp": "2022-02-16T14:17:59+01:00",
-          "value": 49,
-          "code": "{beats}/min"
-        }
-      ],
-      "Temperature": [
-        {
-          "timestamp": "2023-02-01T12:45:00Z",
-          "value": 37.1,
-          "code": "Cel"
-        }
-      ]
-    },
-    "newsScores": [
-    // {
-      // "2022-02-15T14:17:59+01:00": 1,
-      // "2022-02-16T14:17:59+01:00": 1,
-      // "2023-02-01T12:45:00Z": 6
-      {
-        "timestamp": "2023-02-01T12:45:00Z",
-        "value": 37.1,
-        "code": "Cel"
-      },
-      {
-        "timestamp": "2023-02-01T12:45:00Z",
-        "value": 37.1,
-        "code": "Cel"
-      }
-    // }
-    ]
+//9876543210
+async function getData(id: any) {
+  console.log(`https://fhir-observations--x2v47cb.kindground-97a21155.uksouth.azurecontainerapps.io/patientObservations/${id}`)
+  const res = await fetch(`https://fhir-observations--x2v47cb.kindground-97a21155.uksouth.azurecontainerapps.io/patientObservations/${id}`)
+  // The return value is *not* serialized
+  // You can return Date, Map, Set, etc.
+ 
+  if (!res.ok) {
+    // This will activate the closest `error.js` Error Boundary
+    console.log(res);
+    throw new Error('Failed to fetch data')
   }
+
+ 
+  return res.json()
+}
+
+
+
+
+export default async function Page({ params }: { params: { slug: string } }) {
+
+  // const router = useRouter()
+  // console.log(router)
+
+//   const [showModal, setShowModal] = useState(false);  
+//   const [dataType, setDataType] = useState("");
 
   function handleOpenModal(type: string){
     
-    setShowModal(true);
-    setDataType(type);
-    console.log(showModal);
+    // setShowModal(true);
+    // setDataType(type);
+   // console.log(showModal);
   }
 
   function handleCloseModal(){
-    setShowModal(false);
+   // setShowModal(false);
     console.log("Closing modal");
   }
+  
 
-  var minTimestamp = Date.parse(data.newsScores[0].timestamp);
-  var maxTimestamp = Date.parse(data.newsScores[data.newsScores.length-1].timestamp);
+  const data = await getData(params.slug)
+
+  //console.log(JSON.stringify(data))
+
+//   const data = {
+//     "nhsNumber": "9876543210",
+//     "name": "MISS RACHEL KANFELD",
+//     "dob": "1998-03-16",
+//     "observations": {
+//       "Respiration rate": [
+//         {
+//           "timestamp": "2023-02-01T12:45:00Z",
+//           "value": 56,
+//           "code": "{Breaths}/min"
+//         }
+//       ],
+//       "Oxygen saturation": [
+//         {
+//           "timestamp": "2023-02-01T12:45:00Z",
+//           "value": 90,
+//           "code": "%"
+//         }
+//       ],
+//       "Systolic blood pressure": [],
+//       "Pulse rate": [
+//         {
+//           "timestamp": "2022-02-15T14:17:59+01:00",
+//           "value": 48,
+//           "code": "{beats}/min"
+//         },
+//         {
+//           "timestamp": "2023-02-01T12:45:00Z",
+//           "value": 87,
+//           "code": "{beats}/min"
+//         },
+//         {
+//           "timestamp": "2022-02-15T14:17:59+01:00",
+//           "value": 48,
+//           "code": "{beats}/min"
+//         },
+//         {
+//           "timestamp": "2022-02-16T14:17:59+01:00",
+//           "value": 49,
+//           "code": "{beats}/min"
+//         }
+//       ],
+//       "Temperature": [
+//         {
+//           "timestamp": "2023-02-01T12:45:00Z",
+//           "value": 37.1,
+//           "code": "Cel"
+//         }
+//       ]
+//     },
+//     "newsScores": {
+//       "2022-02-15T14:17:59+01:00": 1,
+//       "2022-02-16T14:17:59+01:00": 1,
+//       "2023-02-01T12:45:00Z": 6
+//     }
+//   }
+
+  
 
 
   return (
@@ -114,7 +119,16 @@ export default function Home() {
         <input type="text"></input>
       </form>
     </header>
-    
+
+
+
+
+
+
+
+
+
+
     <table className="w-full">
       <tbody> 
         <tr>
@@ -155,45 +169,45 @@ export default function Home() {
               </div>
               <div className="p-2">
                 <div className="bg-gray-200 p-5 m-2 rounded text-black">
-                  <ChartBar title="News Scores" data={data.newsScores} minTimestamp={minTimestamp} maxTimestamp={maxTimestamp} height="100"></ChartBar>
+                  <ChartBar title="News Scores" data={data.newsScores} height="100"></ChartBar>
                   <br></br>
-                  <button onClick={() => handleOpenModal("newsScores")} className="right-0 bg-blue-500 hover:bg-blue-500 text-white py-2 px-4 rounded">
+                  <button className="right-0 bg-blue-500 hover:bg-blue-500 text-white py-2 px-4 rounded">
                     {"-> Details"}
                   </button>
                 </div>
                 
                 <div className="bg-gray-200 p-5 m-2 rounded text-black">
-                  <ChartBar title="Respiration rate" data={data.observations['Respiration rate']} minTimestamp={minTimestamp} maxTimestamp={maxTimestamp} height="50"/>
+                  <ChartBar title="Respiration rate" data={data.observations['Respiration rate']} height="50"/>
                   <br></br>
-                  <button onClick={() => handleOpenModal("Respiration rate")} className="right-0 bg-blue-500 hover:bg-blue-500 text-white py-2 px-4 rounded">
+                  <button className="right-0 bg-blue-500 hover:bg-blue-500 text-white py-2 px-4 rounded">
                     {"-> Details"}
                   </button>
                   </div>
                 <div className="bg-gray-200 p-5 m-2 rounded text-black">
-                  <ChartBar title="Oxygen saturation" data={data.observations['Oxygen saturation']} minTimestamp={minTimestamp} maxTimestamp={maxTimestamp} height="50"/>
+                  <ChartBar title="Oxygen saturation" data={data.observations['Oxygen saturation']} height="50"/>
                   <br></br>
-                  <button onClick={() => handleOpenModal("Oxygen saturation")} className="right-0 bg-blue-500 hover:bg-blue-500 text-white py-2 px-4 rounded">
+                  <button className="right-0 bg-blue-500 hover:bg-blue-500 text-white py-2 px-4 rounded">
                     {"-> Details"}
                   </button>
                   </div>
                 <div className="bg-gray-200 p-5 m-2 rounded text-black">
-                  <ChartBar title="Systolic blood pressure" data={data.observations['Systolic blood pressure']} minTimestamp={minTimestamp} maxTimestamp={maxTimestamp} height="50"/>
+                  <ChartBar title="Systolic blood pressure" data={data.observations['Systolic blood pressure']} height="50"/>
                   <br></br>
-                  <button onClick={() => handleOpenModal("Systolic blood pressure")} className="right-0 bg-blue-500 hover:bg-blue-500 text-white py-2 px-4 rounded">
+                  <button className="right-0 bg-blue-500 hover:bg-blue-500 text-white py-2 px-4 rounded">
                     {"-> Details"}
                   </button>
                   </div>
                 <div className="bg-gray-200 p-5 m-2 rounded text-black">
-                  <ChartBar title="Pulse rate" data={data.observations['Pulse rate']} minTimestamp={minTimestamp} maxTimestamp={maxTimestamp} height="50"/>
+                  <ChartBar title="Pulse rate" data={data.observations['Pulse rate']} height="50"/>
                   <br></br>
-                  <button onClick={() => handleOpenModal("Pulse rate")} className="right-0 bg-blue-500 hover:bg-blue-500 text-white py-2 px-4 rounded">
+                  <button className="right-0 bg-blue-500 hover:bg-blue-500 text-white py-2 px-4 rounded">
                     {"-> Details"}
                   </button>
                   </div>
                 <div className="bg-gray-200 p-5 m-2 rounded text-black">
-                  <ChartBar title="Temperature" data={data.observations['Temperature']} minTimestamp={minTimestamp} maxTimestamp={maxTimestamp} height="50"/>
+                  <ChartBar title="Temperature" data={data.observations['Temperature']} height="50"/>
                   <br></br>
-                  <button onClick={() => handleOpenModal("Temperature")} className="right-0 bg-blue-500 hover:bg-blue-500 text-white py-2 px-4 rounded">
+                  <button className="right-0 bg-blue-500 hover:bg-blue-500 text-white py-2 px-4 rounded">
                     {"-> Details"}
                   </button>
                   </div>
@@ -206,7 +220,13 @@ export default function Home() {
       </tbody>
     </table>
 
-    <Modal show={showModal} handleClose={handleCloseModal} dataType={dataType} data={data}/>
+    {/* <Modal show={showModal} handleClose={handleCloseModal} dataType={dataType} data={data}/> */}
+
+      
+
+
+
+
 
 
       {/* <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">

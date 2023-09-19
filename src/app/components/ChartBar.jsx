@@ -2,7 +2,7 @@
 import React, { useEffect, useRef } from "react";
 import Chart from "chart.js/auto";
 
-export default function App() {
+export default function App(props) {
   const canvasEl = useRef(null);
 
   const colors = {
@@ -27,26 +27,38 @@ export default function App() {
     gradient.addColorStop(0.65, colors.purple.quarter);
     gradient.addColorStop(1, colors.purple.zero);
 
-    const weight = [60.0, 60.2, 59.1, 61.4, 59.9, 60.2, 59.8, 58.6, 59.6, 59.2];
+    const weight = [];
+    const labels = [];
+    let code = "";
+    if (props.data){
+      for (let i = 0; i < props.data.length; i++){
+        labels.push(props.data[i].timestamp);
+        weight.push(props.data[i].value);
+      }
+      code = props.data[0].code;
+    }
 
-    const labels = [
-      "Week 1",
-      "Week 2",
-      "Week 3",
-      "Week 4",
-      "Week 5",
-      "Week 6",
-      "Week 7",
-      "Week 8",
-      "Week 9",
-      "Week 10"
-    ];
+
+    // const weight = [60.0, 60.2, 59.1, 61.4, 59.9, 60.2, 59.8, 58.6, 59.6, 59.2];
+
+    // const labels = [
+    //   "Week 1",
+    //   "Week 2",
+    //   "Week 3",
+    //   "Week 4",
+    //   "Week 5",
+    //   "Week 6",
+    //   "Week 7",
+    //   "Week 8",
+    //   "Week 9",
+    //   "Week 10"
+    // ];
     const data = {
       labels: labels,
       datasets: [
         {
           backgroundColor: gradient,
-          label: "My First Dataset",
+          label: code,
           data: weight,
           fill: true,
           borderWidth: 2,
@@ -70,8 +82,8 @@ export default function App() {
 
   return (
     <div className="App">
-      <span>Chart.js Demo</span>
-      <canvas id="myChart" ref={canvasEl} height="100" />
+      <span>{props.title}</span>
+      <canvas id={props.title} ref={canvasEl} height={props.height} />
     </div>
   );
 }

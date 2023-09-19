@@ -65,9 +65,10 @@ def _fetchObservations(smart, patientId):
         obs = []
         obsByTimestamp = {}
         for ob in [o for o in observations if o.valueQuantity]:
-            observationObject = {'timestamp': ob.effectiveDateTime.isostring, 'value': ob.valueQuantity.value, 'code': ob.valueQuantity.code}
+            effectiveDateTime = ob.effectiveDateTime or ob.effectivePeriod.start
+            observationObject = {'timestamp': effectiveDateTime.isostring, 'value': ob.valueQuantity.value, 'code': ob.valueQuantity.code}
             obs.append(observationObject)
-            obsByTimestamp[ob.effectiveDateTime.isostring] = observationObject
+            obsByTimestamp[effectiveDateTime.isostring] = observationObject
         observationsDict[observationName] = obs
         obsByTimestampDict[observationName] = obsByTimestamp
 
@@ -93,14 +94,14 @@ def _generateNewsScores(obsByTimestampDict):
     for observationName in SNOMED_CODES:
         tracker[observationName] = None
 
-    timedNewsScores = {}
+    timedNewsScores = []
     
     for timestamp in allTimestamps:
         for observationName in SNOMED_CODES:
             if timestamp in obsByTimestampDict[observationName]:
                 tracker[observationName] = obsByTimestampDict[observationName][timestamp]['value']
 
-        timedNewsScores[timestamp] = _calculateNewsScore(tracker)
+        timedNewsScores.append({'timestamp': timestamp, 'value': _calculateNewsScore(tracker)})
 
     return timedNewsScores
 

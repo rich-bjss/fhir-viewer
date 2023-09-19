@@ -13,6 +13,16 @@ export default function Home() {
           "timestamp": "2023-02-01T12:45:00Z",
           "value": 56,
           "code": "{Breaths}/min"
+        },
+        {
+          "timestamp": "2023-02-02T12:45:00Z",
+          "value": 57,
+          "code": "{Breaths}/min"
+        },
+        {
+          "timestamp": "2023-02-03T12:45:00Z",
+          "value": 53,
+          "code": "{Breaths}/min"
         }
       ],
       "Oxygen saturation": [
@@ -53,11 +63,23 @@ export default function Home() {
         }
       ]
     },
-    "newsScores": {
-      "2022-02-15T14:17:59+01:00": 1,
-      "2022-02-16T14:17:59+01:00": 1,
-      "2023-02-01T12:45:00Z": 6
-    }
+    "newsScores": [
+    // {
+      // "2022-02-15T14:17:59+01:00": 1,
+      // "2022-02-16T14:17:59+01:00": 1,
+      // "2023-02-01T12:45:00Z": 6
+      {
+        "timestamp": "2023-02-01T12:45:00Z",
+        "value": 37.1,
+        "code": "Cel"
+      },
+      {
+        "timestamp": "2023-02-01T12:45:00Z",
+        "value": 37.1,
+        "code": "Cel"
+      }
+    // }
+    ]
   }
 
 
@@ -102,8 +124,8 @@ export default function Home() {
                 <h2 className="p-5 rounded bg-blue-300"> Vital Signs</h2>
               </div>
               <div className="p-2">
-                <div className="bg-gray-200 m-2 rounded text-black">
-                  <ChartBar height="100">
+                <div className="bg-gray-200 p-5 m-2 rounded text-black">
+                  <ChartBar title="News Scores" data={data.newsScores} height="100">
 
                   </ChartBar>
                   <br></br>
@@ -112,10 +134,17 @@ export default function Home() {
                   </button>
                 </div>
                 
-                <div className="bg-gray-200 p-5 m-2 rounded text-black"><ChartBar title="Respiration rate " data={data.observations} height="50"/></div>
-                <div className="bg-gray-200 p-5 m-2 rounded text-black"><ChartBar title="Pulse rate" height="50"/></div>
-                <div className="bg-gray-200 p-5 m-2 rounded text-black"><ChartBar title="Oxygen saturation" height="50"/></div>
-                <div className="bg-gray-200 p-5 m-2 rounded text-black"><ChartBar title="Temper" height="50"/></div>
+                <div className="bg-gray-200 p-5 m-2 rounded text-black">
+                  <ChartBar title="Respiration rate" data={data.observations['Respiration rate']} height="50"/></div>
+                
+                <div className="bg-gray-200 p-5 m-2 rounded text-black">
+                  <ChartBar title="Pulse rate" data={data.observations['Pulse rate']} height="50"/></div>
+                
+                <div className="bg-gray-200 p-5 m-2 rounded text-black">
+                  <ChartBar title="Oxygen saturation" data={data.observations['Oxygen saturation']} height="50"/></div>
+                
+                <div className="bg-gray-200 p-5 m-2 rounded text-black">
+                  <ChartBar title="Temperature" data={data.observations['Temperature']} height="50"/></div>
               </div>
 
             </div>  

@@ -76,7 +76,9 @@ export default function App(props) {
       options: {
         scales: {
           x: {
-            type: 'time'
+            type: 'time',
+            min: props.minTimestamp,
+            max: props.maxTimestamp,
           }
         }
       }

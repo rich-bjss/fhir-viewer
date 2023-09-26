@@ -1,9 +1,7 @@
 import React from "react";
+import ChartBar from '../components/ChartBar.jsx'
 
-function Modal(props: any) {
-
-
-
+function FullScreenModal(props: any) {
     return (
         <div className={props.show ? "inline-block" : "hidden"} >
             <div
@@ -16,7 +14,7 @@ function Modal(props: any) {
                 aria-hidden="true">
                 <div
                     data-te-modal-dialog-ref
-                    className="pointer-events-none relative w-auto opacity-100 transition-all duration-300 ease-in-out min-[576px]:mx-auto min-[576px]:my-7 min-[576px]:max-w-[500px]">
+                    className="pointer-events-none relative w-auto opacity-100 transition-all duration-300 ease-in-out">
                     <div
                     className="min-[576px]:shadow-[0_0.5rem_1rem_rgba(#000, 0.15)] pointer-events-auto relative flex w-full flex-col rounded-md border-none bg-white bg-clip-padding text-current shadow-lg outline-none dark:bg-neutral-600">
                     <div
@@ -24,7 +22,7 @@ function Modal(props: any) {
                         <h5
                         className="text-xl font-medium leading-normal text-neutral-800 dark:text-neutral-200"
                         id="exampleModalComponentsLabel">
-                        {props.dataType}
+                        Full Screen
                         </h5>
                         <button
                         type="button"
@@ -47,7 +45,8 @@ function Modal(props: any) {
                         </button>
                     </div>
                     <div className="relative flex-auto p-4" data-te-modal-body-ref>
-                        <pre>{JSON.stringify(props.data.observations[props.dataType], null, 2)}</pre>
+                        <ChartBar title={props.dataType} data={props.data.observations[props.dataType]} height="100" showAllLabels={props.showAllLabels} />
+                        {/* <pre>{JSON.stringify(props.data.observations[props.dataType], null, 2)}</pre> */}
                     </div>
                     <div
                         className="flex flex-shrink-0 flex-wrap items-center justify-end rounded-b-md border-t-2 border-neutral-100 border-opacity-100 p-4 dark:border-opacity-50">
@@ -68,4 +67,4 @@ function Modal(props: any) {
     )
 }
 
-export default Modal;
+export default FullScreenModal;

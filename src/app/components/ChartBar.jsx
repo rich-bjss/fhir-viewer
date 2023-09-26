@@ -21,41 +21,30 @@ export default function App(props) {
 
   useEffect(() => {
     const ctx = canvasEl.current.getContext("2d");
-    // const ctx = document.getElementById("myChart");
 
     const gradient = ctx.createLinearGradient(0, 16, 0, 600);
     gradient.addColorStop(0, colors.purple.half);
     gradient.addColorStop(0.65, colors.purple.quarter);
     gradient.addColorStop(1, colors.purple.zero);
 
+    //Organises the data
     const weight = [];
     const labels = [];
     let code = "";
+    let minTimestamp = "";
+    let maxTimestamp = "";
     if (props.data){
-      for (let i = 0; i < props.data.length; i++){
-        labels.push(Date.parse(props.data[i].timestamp));
-        weight.push(props.data[i].value);
-      }
+      minTimestamp = Date.parse(props.data[0].timestamp);
+      maxTimestamp = Date.parse(props.data[props.data.length-1].timestamp);
+        for (let i = 0; i < props.data.length; i++){
+          labels.push(Date.parse(props.data[i].timestamp));
+          weight.push(props.data[i].value);
+        }
       if (props.data.length > 0) {
         code = props.data[0].code;
       }
     }
 
-
-    // const weight = [60.0, 60.2, 59.1, 61.4, 59.9, 60.2, 59.8, 58.6, 59.6, 59.2];
-
-    // const labels = [
-    //   "Week 1",
-    //   "Week 2",
-    //   "Week 3",
-    //   "Week 4",
-    //   "Week 5",
-    //   "Week 6",
-    //   "Week 7",
-    //   "Week 8",
-    //   "Week 9",
-    //   "Week 10"
-    // ];
     const data = {
       labels: labels,
       datasets: [
@@ -77,11 +66,14 @@ export default function App(props) {
       data: data,
       options: {
         scales: {
-          x: {
-            type: 'time',
-            min: props.minTimestamp,
-            max: props.maxTimestamp,
-          }
+            x: {
+                type: 'time',
+                min: minTimestamp,
+                max: maxTimestamp,
+                ticks: {
+                    display: props.showAllLabels ? true : false
+                }
+            }
         }
       }
     };
@@ -93,8 +85,11 @@ export default function App(props) {
   });
 
   return (
-    <div className="App">
-      <span>{props.title}</span>
+    <div className="barChart bg-gray-200 rounded p-2">
+      <div>
+        <span className="font-semibold">{props.title}</span>
+        {props.fullScreenButton}
+      </div>
       <canvas id={props.title} ref={canvasEl} height={props.height} />
     </div>
   );

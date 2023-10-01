@@ -45,7 +45,10 @@ function FullScreenModal(props: any) {
                         </button>
                     </div>
                     <div className="relative flex-auto p-4" data-te-modal-body-ref>
-                        <ChartBar title={props.dataType} data={props.data.observations[props.dataType]} height="100" showAllLabels={props.showAllLabels} />
+                        {props.dataType == "newsScores" 
+                                ? <ChartBar title={props.dataType} data={props.data[props.dataType]} height="100" showAllLabels={props.showAllLabels} />
+                                : <ChartBar title={props.dataType} data={props.data.observations[props.dataType]} height="100" showAllLabels={props.showAllLabels} />
+                        }
                         {/* <pre>{JSON.stringify(props.data.observations[props.dataType], null, 2)}</pre> */}
                     </div>
                     <div

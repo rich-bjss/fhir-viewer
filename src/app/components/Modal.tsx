@@ -1,8 +1,47 @@
+"use client"
 import React from "react";
+import { useState, useEffect } from 'react';
+
 
 function Modal(props: any) {
 
+    const [showTable, setShowTable] = useState(true); //Otherwise show JSON
 
+    function getCode(){
+            if (props.dataType === "newsScores"){
+
+                // return typeof(props.data[props.dataType])
+                if (props.data[props.dataType] != null){
+                    if (props.data[props.dataType].length > 0){
+                        var x = props.data[props.dataType]
+                        return x[0].code
+                    }
+                }
+            }
+            else {
+                // console.log(props.data.observations[props.dataType])
+                // return typeof(props.data.observations[props.dataType])
+                if (props.data.observations[props.dataType] != null){
+                    if (props.data.observations[props.dataType].length > 0){
+                        var x = props.data.observations[props.dataType]
+                        return x[0].code
+                    }
+                }
+            }
+        
+    }
+
+    function getResults(){
+
+    }
+
+    function handleOpenTable(){
+        setShowTable(true);
+    }
+
+    function handleOpenJSON(){
+        setShowTable(false);
+    }
 
     return (
         <div className={props.show ? "inline-block" : "hidden"} >
@@ -47,7 +86,44 @@ function Modal(props: any) {
                         </button>
                     </div>
                     <div className="relative flex-auto p-4" data-te-modal-body-ref>
-                        <pre>{JSON.stringify(props.data.observations[props.dataType], null, 2)}</pre>
+                        <button onClick={() => handleOpenTable()} className=" px-2 mr-2 mb-2 border border-blue-600 hover:bg-blue-600 hover:text-white text-blue-600 rounded">
+                            {"TABLE"}
+                        </button>
+                        <button onClick={() => handleOpenJSON()} className=" px-2 border border-blue-600 hover:bg-blue-600 hover:text-white text-blue-600 rounded">
+                            {"JSON"}
+                        </button>
+
+                        {/* TABLE FORMAT */}
+                        <table className={showTable ? "w-full text-sm text-left text-gray-500 dark:text-gray-400" : "hidden"}>
+                            <thead className="text-sm text-left text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                <tr>
+                                    <th scope="col" className="px-6 py-3">
+                                        Timestamp
+                                    </th>
+                                    <th scope="col" className="px-6 py-3">
+                                        Value <span className="text-xs italic font-normal">{getCode()}</span>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody className="text-left">
+                                <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                    <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                        Apple MacBook Pro 17"
+                                    </th>
+                                    <td className="px-6 py-4">
+                                        Silver
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        {/* JSON FORMAT */}
+                        <pre className={showTable ? "hidden" : "inline-block"}>
+                            {props.dataType == "newsScores" 
+                                ? JSON.stringify(props.data[props.dataType], null, 2) 
+                                : JSON.stringify(props.data.observations[props.dataType], null, 2)
+                            }
+                        </pre>
                     </div>
                     <div
                         className="flex flex-shrink-0 flex-wrap items-center justify-end rounded-b-md border-t-2 border-neutral-100 border-opacity-100 p-4 dark:border-opacity-50">
